@@ -40,7 +40,12 @@ public class WeathersAPIController {
 
     @Autowired
     WeathersServices services;
-
+    
+    /**
+     * Get publica datos mediante el APIrest en la direccion /city.
+     * @param city
+     * @return 
+     */
     @GetMapping("/{city}")
     public ResponseEntity<?> getWeathersHandler(@PathVariable("city") String city) {
         try {

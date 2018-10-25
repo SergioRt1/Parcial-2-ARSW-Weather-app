@@ -14,6 +14,12 @@ import com.example.Weathers.services.WeathersServicesException;
  */
 public interface HttpConnection {
     
+    /**
+     * Obtiene los datos del clima de una ciudad desde un api externo.
+     * @param city la ciudad a consultar
+     * @return String que representa el JSON de los datos del clima.
+     * @throws WeathersServicesException 
+     */
     public String getWeather(String city) throws WeathersServicesException;
     
 }

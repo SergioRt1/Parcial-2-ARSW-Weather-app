@@ -13,7 +13,13 @@ import java.util.Set;
  * @author hcadavid
  */
 public interface WeathersServices {
-
+    
+    /**
+     * Obtiene los datos del clima de una ciudad.
+     * @param city la ciudad a consultar
+     * @return String que representa el JSON de los datos del clima.
+     * @throws WeathersServicesException 
+     */
     String getWeather(String city) throws WeathersServicesException;
     
 }
