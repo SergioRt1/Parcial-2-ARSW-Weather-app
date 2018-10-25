@@ -1,4 +1,4 @@
-var SeriesController = (function () {
+var WeathersController = (function () {
 
     function clearTables() {
         var content = document.getElementById("content");
@@ -13,63 +13,67 @@ var SeriesController = (function () {
     }
 
 
-    function addSeries(series) {
+    function addWeathers(Weathers) {
         var tableOrder = document.createElement("table");
         var header = document.createElement("tr");
 
         var cell = document.createElement("th");
-        cell.innerHTML = "Date";
+        cell.innerHTML = "Wind";
         header.appendChild(cell);
 
         var cell = document.createElement("th");
-        cell.innerHTML = "Open";
+        cell.innerHTML = "Cloudiness";
         header.appendChild(cell);
 
         var cell = document.createElement("th");
-        cell.innerHTML = "High";
+        cell.innerHTML = "Pressure";
         header.appendChild(cell);
 
         var cell = document.createElement("th");
-        cell.innerHTML = "Low";
+        cell.innerHTML = "Humidity";
         header.appendChild(cell);
 
         var cell = document.createElement("th");
-        cell.innerHTML = "Close";
+        cell.innerHTML = "Sunrise";
         header.appendChild(cell);
 
         var cell = document.createElement("th");
-        cell.innerHTML = "Volume";
+        cell.innerHTML = "Sunset";
+        header.appendChild(cell);
+
+        var cell = document.createElement("th");
+        cell.innerHTML = "Geo coords";
         header.appendChild(cell);
 
 
         tableOrder.appendChild(header);
 
         tableOrder.setAttribute("class", "table");
-        for (i in series) {
+        for (i in Weathers) {
             var row = document.createElement("tr");
 
             var cell = document.createElement("td");
-            cell.innerHTML = series[i].date;
+            cell.innerHTML = Weathers[i].date;
             row.appendChild(cell);
 
             var cell = document.createElement("td");
-            cell.innerHTML = series[i].open;
+            cell.innerHTML = Weathers[i].open;
             row.appendChild(cell);
 
             var cell = document.createElement("td");
-            cell.innerHTML = series[i].high;
+            cell.innerHTML = Weathers[i].high;
             row.appendChild(cell);
 
             var cell = document.createElement("td");
-            cell.innerHTML = series[i].low;
+            cell.innerHTML = Weathers[i].low;
             row.appendChild(cell);
 
             var cell = document.createElement("td");
-            cell.innerHTML = series[i].close;
+            cell.innerHTML = Weathers[i].close;
             row.appendChild(cell);
 
             var cell = document.createElement("td");
-            cell.innerHTML = series[i].volume;
+            cell.innerHTML = Weathers[i].volume;
             row.appendChild(cell);
 
             tableOrder.appendChild(row);
@@ -89,59 +93,44 @@ var SeriesController = (function () {
     }
 
 
-    function loadSeries(SerieBuilder, filterSource) {
+    function loadWeathers(WeatherBuilder, filterSource) {
         clearTables();
-        loadData(SerieBuilder, filterSource);
+        loadData(WeatherBuilder, filterSource);
     }
 
-    function SerieAlphavantageBuilder(series) {
-        var seriesBuild = [];
+    function WeatherAlphavantageBuilder(Weathers) {
+        var WeathersBuild = [];
         var cont = 0;
-        var TimeSeries;
-        for(v in series){
+        var TimeWeathers;
+        for(v in Weathers){
             if(cont++ === 1){
-                TimeSeries = v;
+                TimeWeathers = v;
             }
         }
-        for (i in series[TimeSeries]) {
-            var serie = {date: i, open: series[TimeSeries][i]["1. open"], high: series[TimeSeries][i]["2. high"], low: series[TimeSeries][i]["3. low"], close: series[TimeSeries][i]["4. close"], volume: series[TimeSeries][i]["5. volume"]};
-            seriesBuild.push(serie);
+        for (i in Weathers[TimeWeathers]) {
+            var Weather = {date: i, open: Weathers[TimeWeathers][i]["1. open"], high: Weathers[TimeWeathers][i]["2. high"], low: Weathers[TimeWeathers][i]["3. low"], close: Weathers[TimeWeathers][i]["4. close"], volume: Weathers[TimeWeathers][i]["5. volume"]};
+            WeathersBuild.push(Weather);
         }
-        addSeries(seriesBuild);
+        addWeathers(WeathersBuild);
     }
 
     function loadData(callback, filterSource) {
         axios.all([filterSource()])
-                .then(axios.spread(function (serie) {
-                    callback(serie);
+                .then(axios.spread(function (Weather) {
+                    callback(Weather);
                 }));
     }
 
-    function filterSelectedAlphavantage() {
-        var typeSelected = getSelected("selectFunction");
-        var name = document.getElementById("company").value;
-        if (typeSelected === "Intraday") {
-            var interval = getSelected("interval");
-            return SeriesRestController.getSeriesIntervalAlphavantage(name, typeSelected, interval);
-        }
-        return SeriesRestController.getSeriesAlphavantage(name, typeSelected);
+    function filterSelected() {
+        var city = document.getElementById("city").value;
+        return WeathersRestController.getWeathersAlphavantage(city);
     }
 
-    function filterSelectedIextrading() {
-        var typeSelected = getSelected("selectFunction");
-        var name = document.getElementById("company").value;
-        if (typeSelected === "Date") {
-            var date = document.getElementById("date").value;
-            return SeriesRestController.getSeriesDateIextrading(name, typeSelected, date);
-        }
-        return SeriesRestController.getSeriesIextrading(name, typeSelected);
-    }
 
     return {
-        loadSeries: loadSeries,
+        loadWeathers: loadWeathers,
         filterSelectedIextrading: filterSelectedIextrading,
         filterSelectedAlphavantage: filterSelectedAlphavantage,
-        SerieIextradingBuilder: addSeries,
-        SerieAlphavantageBuilder: SerieAlphavantageBuilder
+        WeatherIextradingBuilder: addWeathers
     };
 })();

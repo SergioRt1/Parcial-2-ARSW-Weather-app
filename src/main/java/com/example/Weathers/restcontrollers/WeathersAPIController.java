@@ -14,10 +14,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.example.series.restcontrollers;
+package com.example.Weathers.restcontrollers;
 
-import com.example.series.services.SeriesServices;
-import com.example.series.services.SeriesServicesException;
+import com.example.Weathers.services.WeathersServices;
+import com.example.Weathers.services.WeathersServicesException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,28 +35,18 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping(value = "/series")
-public class SeriesAPIController {
+@RequestMapping(value = "/weather")
+public class WeathersAPIController {
 
     @Autowired
-    SeriesServices services;
+    WeathersServices services;
 
-    @GetMapping("{source}/{name}/{type}")
-    public ResponseEntity<?> getSeriesHandler(@PathVariable("source") String source, @PathVariable("name") String name, @PathVariable("type") String type) {
+    @GetMapping("/{city}")
+    public ResponseEntity<?> getWeathersHandler(@PathVariable("city") String city) {
         try {
-            return new ResponseEntity<>(services.getSerie(name, type, source), HttpStatus.ACCEPTED);
-        } catch (SeriesServicesException ex) {
-            Logger.getLogger(SeriesServicesException.class.getName()).log(Level.SEVERE, null, ex);
-            return new ResponseEntity<>("Error al consultar", HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @GetMapping("{source}/{name}/{type}/{date}")
-    public ResponseEntity<?> getSeriesHandler(@PathVariable("source") String source, @PathVariable("name") String name, @PathVariable("type") String type, @PathVariable("date") String date) {
-        try {
-            return new ResponseEntity<>(services.getSerie(name, type, date,source), HttpStatus.ACCEPTED);
-        } catch (SeriesServicesException ex) {
-            Logger.getLogger(SeriesServicesException.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>(services.getWeather(city), HttpStatus.ACCEPTED);
+        } catch (WeathersServicesException ex) {
+            Logger.getLogger(WeathersServicesException.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>("Error al consultar", HttpStatus.NOT_FOUND);
         }
     }

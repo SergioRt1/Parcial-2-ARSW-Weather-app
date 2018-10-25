@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.example.series.beans.impl;
+package com.example.Weathers.beans.impl;
 
-import com.example.series.beans.HttpConnection;
-import com.example.series.services.SeriesServicesException;
+import com.example.Weathers.beans.HttpConnection;
+import com.example.Weathers.services.WeathersServicesException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -20,24 +20,15 @@ import org.springframework.stereotype.Service;
  *
  * @author sergio
  */
-public class HttpConnectionIextrading implements HttpConnection {
+@Service
+public class HttpConnectionOpenweathermap implements HttpConnection {
 
     private final String USER_AGENT = "Mozilla/5.0";
+    private final String APIkey = "1bc453b8f8fc960bd986e3dd5ad83f5b";
 
     @Override
-    public String getSerie(String name, String type, String date) throws SeriesServicesException {
-        String GET_URL = String.format("https://api.iextrading.com/1.0/stock/%s/chart/%s/%s", name, type, date);
-        return getSerie(GET_URL);
-    }
-
-    @Override
-    public String getSerie(String name, String type) throws SeriesServicesException {
-        String GET_URL = String.format("https://api.iextrading.com/1.0/stock/%s/chart/%s", name, type);
-        return getSerie(GET_URL);
-    }
-
-    @Override
-    public String getSerie(String GET_URL) throws SeriesServicesException {
+    public String getWeather(String city) throws WeathersServicesException {
+        String GET_URL = String.format("http://api.openweathermap.org/data/2.5/weather?q=%s&APPID=%s", city, APIkey);
         try {
 
             URL obj = new URL(GET_URL);
@@ -68,10 +59,10 @@ public class HttpConnectionIextrading implements HttpConnection {
                 System.out.println("GET request not worked");
             }
             System.out.println("GET DONE");
-            throw new SeriesServicesException("Error consutando al API externo.");
+            throw new WeathersServicesException("Error consultando al API externo.");
         } catch (IOException ex) {
             Logger.getLogger(HttpConnection.class.getName()).log(Level.SEVERE, null, ex);
-            throw new SeriesServicesException("Error consutando al API externo.");
+            throw new WeathersServicesException("Error consultando al API externo.");
         }
     }
 }
