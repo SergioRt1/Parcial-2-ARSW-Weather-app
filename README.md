@@ -9,5 +9,5 @@ El restAPI provee la siguente ruta url/weather/{city} para optener el clima por 
 
 Se provee en un archivo .zip que contiene un cliente que mediante JUnit hace pruebas concurrentes a este API, las pruebas se realizan directamente a Heroku.
 ![](img/ArquitecturaParcialSegundoTercio.png)
-
+Javadoc en apidocs/index.html en el repositorio
 

@@ -1,0 +1,5 @@
+com.example.Weathers
+com.example.Weathers.beans
+com.example.Weathers.beans.impl
+com.example.Weathers.restcontrollers
+com.example.Weathers.services
