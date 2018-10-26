@@ -119,11 +119,12 @@ var WeathersController = (function () {
 
     function filterSelected() {
         var city = document.getElementById("city").value;
+//        MapController.initialize(city);
         return WeathersRestController.getWeathers(city);
     }
 
 
     return {
-        loadWeathers: loadWeathers,
+        loadWeathers: loadWeathers
     };
 })();
